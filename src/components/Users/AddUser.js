@@ -4,22 +4,43 @@ import classes from "./AddUser.module.css";
 import Button from "../UI/Button";
 
 const AddUser = (props) => {
-  const addUserHandler = (event) => {
-    event.preventDefault();
-  };
+  const [enteredUsername, setEnteredUsername] = useState("");
+  const [enteredAge, setEnteredAge] = useState("");
 
-  const [enteredUsername, setEnteredUsername] = useState();
-
-  const usernameHandler = (event) => {
+  const usernameChangeHandler = (event) => {
     setEnteredUsername(event.target.value);
   };
+  const ageChangeHandler = (event) => {
+    setEnteredAge(event.target.value);
+  };
+  const addUserHandler = (event) => {
+    event.preventDefault();
+    if (enteredAge.trim().length === 0 || enteredUsername.trim().length === 0)
+      return;
+    if (+enteredAge < 1) {
+      return;
+    }
+    setEnteredUsername("");
+    setEnteredAge("");
+  };
+
   return (
     <Card className={classes.input}>
       <form onSubmit={addUserHandler}>
         <label htmlFor="username">Username</label>
-        <input type="text" id="username" onChange={usernameHandler}></input>
+        <input
+          type="text"
+          id="username"
+          onChange={usernameChangeHandler}
+          value={enteredUsername}
+        ></input>
         <label htmlFor="age">Age (Years)</label>
-        <input type="age" id="number"></input>
+        <input
+          type="age"
+          id="number"
+          onChange={ageChangeHandler}
+          value={enteredAge}
+        ></input>
         <Button type="submit">Add User</Button>
       </form>
     </Card>
